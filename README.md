@@ -1,1 +1,2 @@
-ESP32C3 Supermini - Rockblock Mk2 Project
+Arduino_Nano - Rockblock MK2 
+SATCOM Device

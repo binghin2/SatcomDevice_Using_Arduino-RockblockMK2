@@ -88,6 +88,40 @@ void ISBDConsoleCallback(IridiumSBD *device, char c)
 
 void ISBDDiagsCallback(IridiumSBD *device, char c)
 {
+
+
+
+
+
+
+
+
+
+
+
+
+  /*    output
+  출력이 약하다는 소리.
+  연구실 실내에서 진행하였지만
+  안테나가 실내에 있고
+  창문쪽을 바라 보지않ㅇ ㅏ그런듯 
+  
+  
+  Starting modem...  
+AT
+ATE1
+AT&D0
+AT&K0
+AT+SBDMTA=0
+AT+CGMR
+AT+CGMR
+Firmware Version is TA21004.
+AT+CSQ
+On a scale of 0 to 5, signal quality is currently 0.
+Trying to send the message.  This might take several minutes.
+AT+SBDWT
+Hello, world!
+AT+SBDIX */
   Serial.write(c);
 }
 #endif

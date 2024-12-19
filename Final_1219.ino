@@ -2,7 +2,7 @@
 #include <SoftwareSerial.h>
 
 // 핀 설정
-#define MODEM_TX 2        // 모뎀 TX 핀
+#define MODEM_TX 2        // 모뎀 TX 핀f
 #define MODEM_RX 3        // 모뎀 RX 핀
 #define MODEM_SLEEP 4     // 모뎀 SLEEP 핀
 
@@ -51,10 +51,7 @@ void setup() {
 
   // 초기 전원 OFF 및 LED 꺼짐
   digitalWrite(POWER_CTRL, LOW);
-  digitalWrite(ESP32_TRIGGER, LOW);
-  digitalWrite(RED_PIN, LOW);
-  digitalWrite(GREEN_PIN, LOW);
-  digitalWrite(BLUE_PIN, LOW);
+  resetLEDs();
 
   Serial.println("로터리 엔코더와 Iridium 모뎀 제어 시작...");
 }
@@ -78,6 +75,7 @@ void handleRotarySwitch() {
         Serial.println("전원 ON");
         digitalWrite(POWER_CTRL, HIGH); // 전원 ON
         powerOn = true;
+        setLEDs(false, false, true); // 파란색 LED ON
 
         // 모뎀 초기화
         int result = modem.begin();
@@ -86,6 +84,7 @@ void handleRotarySwitch() {
           Serial.println(result);
           powerOn = false;
           digitalWrite(POWER_CTRL, LOW); // 전원 OFF
+          setLEDs(true, false, false); // 빨간색 LED ON
         }
       }
     } else if (digitalRead(ROTARY_DT) == LOW) { // 반시계 방향 회전 감지
@@ -93,6 +92,7 @@ void handleRotarySwitch() {
         Serial.println("전원 OFF");
         digitalWrite(POWER_CTRL, LOW); // 전원 OFF
         powerOn = false;
+        resetLEDs();
       }
     }
     delay(50); // 디바운싱
@@ -122,25 +122,21 @@ void handleButtonInput() {
 
 void sendSBDMessage() {
   Serial.println("SBD 메시지 전송 중...");
+  setLEDs(false, false, true); // 파란색 LED ON
   int result = modem.sendSBDText(message);
   if (result != ISBD_SUCCESS) {
     Serial.print("메시지 전송 실패: ");
     Serial.println(result);
 
-    // 실패 시 모든 LED 끄기
-    digitalWrite(RED_PIN, LOW);
-    digitalWrite(GREEN_PIN, LOW);
-    digitalWrite(BLUE_PIN, LOW);
+    // 실패 시 빨간색 LED 켜기
+    setLEDs(true, false, false);
   } else {
     Serial.println("메시지 전송 성공!");
 
     // 성공 시 초록색 LED 켜기
-    digitalWrite(RED_PIN, LOW);
-    digitalWrite(GREEN_PIN, HIGH);
-    digitalWrite(BLUE_PIN, LOW);
-
+    setLEDs(false, true, false);
     delay(5000);  // 5초 동안 초록색 LED 유지
-    digitalWrite(GREEN_PIN, LOW);  // 초록색 LED 끄기
+    resetLEDs();
   }
 
   modem.sleep();
@@ -152,4 +148,16 @@ void triggerESP32Camera() {
   delay(1000);                       // 신호 유지 (1초)
   digitalWrite(ESP32_TRIGGER, LOW);  // 신호 끄기
   Serial.println("ESP32 카메라 작동 완료.");
+}
+
+void resetLEDs() {
+  digitalWrite(RED_PIN, LOW);
+  digitalWrite(GREEN_PIN, LOW);
+  digitalWrite(BLUE_PIN, LOW);
+}
+
+void setLEDs(bool red, bool green, bool blue) {
+  digitalWrite(RED_PIN, red);
+  digitalWrite(GREEN_PIN, green);
+  digitalWrite(BLUE_PIN, blue);
 }

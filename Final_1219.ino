@@ -27,7 +27,7 @@ SoftwareSerial ssIridium(MODEM_RX, MODEM_TX);
 IridiumSBD modem(ssIridium, MODEM_SLEEP);
 
 // 전송할 메시지
-const char* message = "mobyunghyun";
+const char* message = "IPD_GALA";
 
 // 전원 상태 및 상태 변수
 bool powerOn = false;       // 현재 전원 상태

@@ -1,5 +1,8 @@
-Arduino_Nano - Rockblock MK2 
-SATCOM Device
+ RAVIS
+ Emergency Satcom device
+
+아두이노 Iridiumsbd.h
+ 
 
 
 

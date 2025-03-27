@@ -1,15 +1,7 @@
 # RAVIS  Emergency Satcom device
-
-
-
- 아두이노 Iridiumsbd.h 를 이용하여
-serial 통신을 사용한 위성통신 단말기 제작 프로젝트
- 
-
-
+Satellite communication device made using Arduino
 
 ## Equipment
--
 1.   Rockblock MK2
 2.   Arduino Nano
 3.   9V BAT -> Arduino Nano
@@ -22,7 +14,6 @@ serial 통신을 사용한 위성통신 단말기 제작 프로젝트
 10. 10K Register
 
 ## Language
--
 C++<br/>
 
 
